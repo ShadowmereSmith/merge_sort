@@ -13,11 +13,30 @@ Infix "<=*" := le_all (at level 70, no associativity).
 
 Lemma tail_sorted: forall l a, sorted (a :: l) -> sorted l.
 Proof.
-  Admitted.
+  intro l.
+  case l.
+  - intros a H.  
+    apply nil_sorted.  
+  - intros n l' a H.  
+    inversion H; subst.
+    assumption.  
+Qed.
 
 Lemma le_all_sorted: forall l a, a <=* l -> sorted l -> sorted (a :: l).
 Proof.
-  Admitted.
+  intros l a H H0.
+  induction l.
+  - apply one_sorted.
+  - apply all_sorted.
+    + exact H0.
+    + destruct H with (y := a0).
+      * simpl.
+        left.
+        apply eq_refl.
+      * apply Nat.le_refl.
+      * apply le_S.
+        exact l0.
+Qed.
 
 Lemma remove_sorted: forall l a1 a2, sorted (a1 :: a2 :: l) -> sorted (a1 :: l).
 Proof.
