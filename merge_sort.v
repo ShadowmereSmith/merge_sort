@@ -1,6 +1,7 @@
 (** PROJETO E ANÁLISE DE ALGORITMOS - 2025/2 *)
-(** Link do site do coq se vocês prefirirem: https://jscoq.github.io/scratchpad.html
-
+(** Link do site do coq se vocês prefirirem: https://jscoq.github.io/scratchpad.html*)
+(** CORREÇÃO DO ALGORITMO MERGESORT
+  
 Nome e username dos participantes:
 1. 
 2. Geilson - Geilsondss 
@@ -68,8 +69,16 @@ Proof.
     destruct H0.
   - intros a0 H y H0.
     destruct H0.
-  Admitted.
+    + inversion H; subst.
+          exact H5.
+        + apply remove_sorted in H.
+          apply IHl in H.
+          unfold "<=*" in H.
+          apply H in H0.
+          exact H0.
+Qed.
 
+    
 Fixpoint num_oc n l  :=
   match l with
     | nil => 0
