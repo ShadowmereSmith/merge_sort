@@ -1,3 +1,12 @@
+(** PROJETO E ANÁLISE DE ALGORITMOS - 2025/2 *)
+(** Link do site do coq se vocês prefirirem: https://jscoq.github.io/scratchpad.html
+
+Nome e username dos participantes:
+1. 
+2. Geilson - Geilsondss 
+3. 
+*)
+
 Require Import Arith List Recdef.
 Require Import Coq.Program.Wf.
 Require Import Permutation.
@@ -40,10 +49,25 @@ Qed.
 
 Lemma remove_sorted: forall l a1 a2, sorted (a1 :: a2 :: l) -> sorted (a1 :: l).
 Proof.
-  Admitted.
+  intro l; case l.
+  - intros a1 a2 H.
+    apply one_sorted.
+  - intros n l' a1 a2 H.
+    inversion H; subst.
+    inversion H2; subst.
+    apply all_sorted.
+    + assumption.
+    + apply Nat.le_trans with a2; assumption.
+Qed.
+    
 
 Lemma sorted_le_all: forall l a, sorted(a :: l) -> a <=* l.
 Proof.
+  induction l.
+  - intros a H y H0.
+    destruct H0.
+  - intros a0 H y H0.
+    destruct H0.
   Admitted.
 
 Fixpoint num_oc n l  :=
