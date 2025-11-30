@@ -3,7 +3,7 @@
 (** CORREÇÃO DO ALGORITMO MERGESORT
   
 Nome e username dos participantes:
-1. 
+1. Ayrla Costa - AyrlaCosta
 2. Geilson - Geilsondss 
 3. 
 *)
@@ -90,12 +90,18 @@ Definition perm l l' := forall n:nat, num_oc n l = num_oc n l'.
 
 Lemma perm_refl: forall l, perm l l.
 Proof.
-Admitted.
+  intro l. unfold perm. intro. reflexivity.
+Qed.
 
 Lemma num_oc_append: forall n l1 l2, num_oc n l1 + num_oc n l2 = num_oc n (l1 ++ l2).
 Proof.
-  Admitted.
-
+  intros. induction l1.
+  - simpl num_oc. trivial.
+  - simpl. destruct (n =? a).
+    + rewrite <- IHl1. apply Peano.plus_Sn_m.
+    + assumption.
+Qed.
+        
 Definition sorted_pair_lst (p: list nat * list nat) :=
 sorted (fst p) /\ sorted (snd p).
 
