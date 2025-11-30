@@ -5,7 +5,7 @@
 Nome e username dos participantes:
 1. Ayrla Costa - AyrlaCosta
 2. Geilson - Geilsondss 
-3. 
+3. Wesley - ShadowmereSmith
 *)
 
 Require Import Arith List Recdef.
@@ -119,7 +119,11 @@ if hd1 <=? hd2 then hd1 :: merge (tl1, l2)
    end.
 
 Proof.
-  Admitted.
+  - intros. unfold len. unfold fst. unfold snd. simpl length.
+    apply plus_lt_compat_r. auto.
+  - intros. unfold len. unfold fst. unfold snd. simpl length.
+    apply plus_lt_compat_l. auto.  
+Qed.
 
 Lemma merge_in: forall y p, In y (merge p) -> In y (fst p) \/ In y (snd p).
 Proof.
