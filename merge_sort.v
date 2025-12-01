@@ -127,7 +127,22 @@ Qed.
 
 Lemma merge_in: forall y p, In y (merge p) -> In y (fst p) \/ In y (snd p).
 Proof.
-Admitted.
+intros. functional induction (merge p).
+  - right. unfold snd. assumption.
+    - left. unfold fst. assumption.
+    - simpl in H. destruct H as [H1 | H2].
+    + left. unfold fst. unfold In. left. assumption.
+        + destruct IHl.
+        * assumption.
+          * left. unfold fst. unfold fst in H. simpl In. right. assumption.
+          * right. simpl. simpl in H. assumption.
+    - simpl in H. destruct H as [H1 | H2].
+    + right. simpl snd. simpl In. left. assumption.
+        + destruct IHl.
+        * assumption.
+          * left. unfold fst. unfold fst in H. assumption.
+          * right. simpl. simpl in H. right. assumption.
+Qed.
 
 
 Theorem merge_sorts: forall p, sorted_pair_lst p -> sorted (merge p).
