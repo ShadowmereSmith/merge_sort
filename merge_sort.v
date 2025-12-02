@@ -221,7 +221,19 @@ Defined.
 
 Theorem mergesort_sorts: forall l, sorted (mergesort l).
 Proof.
-  Admitted.
+induction l.
+  - apply nil_sorted.
+  - functional induction (mergesort (a :: l)).
+    + apply nil_sorted.
+    + apply one_sorted.
+    + apply merge_sorts.
+      unfold sorted_pair_lst.
+      split.
+      * unfold fst.
+        assumption.
+      * unfold snd.
+        assumption.
+Qed.
 
 Lemma merge_num_oc: forall n p, num_oc n (merge p) = num_oc n (fst p) + num_oc n (snd p).
 Proof.
