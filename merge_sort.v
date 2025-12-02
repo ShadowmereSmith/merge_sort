@@ -202,7 +202,22 @@ Function mergesort (l: list nat) {measure length l}:=
   end.
 
 Proof.
-Admitted.
+- intros. rewrite skipn_length. apply Nat.sub_lt.
+  + apply Nat.lt_le_incl. apply Nat.div_lt.
+    * simpl. apply Nat.lt_0_succ.
+      * apply Nat.lt_1_2.
+    + apply Nat.div_str_pos. simpl. split.
+    * apply Nat.lt_0_2.
+      * apply Peano.le_n_S. apply Peano.le_n_S. apply Peano.le_0_n.  
+  - intros. rewrite firstn_length. rewrite min_l.
+  + apply Nat.div_lt.
+    * simpl. apply Nat.lt_0_succ.
+      * apply Nat.lt_1_2.
+    + apply Nat.lt_le_incl. apply Nat.div_lt.
+    * simpl. apply Nat.lt_0_succ.
+      * apply Nat.lt_1_2.
+Defined.
+        
 
 Theorem mergesort_sorts: forall l, sorted (mergesort l).
 Proof.
