@@ -147,7 +147,46 @@ Qed.
 
 Theorem merge_sorts: forall p, sorted_pair_lst p -> sorted (merge p).
 Proof.
-  Admitted.
+  intro p. functional induction (merge p).
+  - unfold sorted_pair_lst. intro. destruct H.
+    unfold snd in H0. assumption.
+  - unfold sorted_pair_lst. intro. destruct H.
+    unfold fst in H. assumption.
+  - intro. apply le_all_sorted.
+    + unfold le_all. intro. intro. apply merge_in in H0.
+      destruct H0 as [H1 | H2].
+      * simpl fst in H1. unfold sorted_pair_lst in H. destruct H as [H2 H3].
+        simpl fst in H2. apply sorted_le_all in H2. unfold le_all in H2.
+        apply H2. assumption.    
+      * simpl snd in H2. apply Nat.le_trans with hd2.
+        -- apply Nat.leb_le. assumption.
+        -- unfold sorted_pair_lst in H. destruct H as [H3 H4]. simpl snd in H4.
+           apply sorted_le_all in H4. simpl In in H2. destruct H2 as [H5 | H6].
+           ** rewrite H5. trivial.
+           ** unfold le_all in H4. apply H4. assumption.
+    + apply IHl. unfold sorted_pair_lst. split.
+      * simpl fst. unfold sorted_pair_lst in H. destruct H as [H1 H2].
+        simpl fst in H1. apply tail_sorted in H1. assumption.
+      * simpl snd. unfold sorted_pair_lst in H. destruct H as [H1 H2].
+        simpl snd in H2. assumption.  
+  - intro. apply le_all_sorted.
+    + unfold le_all. intro. intro. apply merge_in in H0.
+      destruct H0 as [H1 | H2].
+      * simpl fst in H1. unfold sorted_pair_lst in H. destruct H as [H2 H3].
+        simpl fst in H2. apply sorted_le_all in H2. unfold le_all in H2.
+        simpl in H1. destruct H1 as [H4 | H5].
+        ** rewrite <- H4. apply leb_complete_conv in e0. apply Nat.lt_le_incl in e0. assumption.
+        ** apply H2 in H5. apply leb_complete_conv in e0. apply Nat.lt_le_incl in e0. rewrite <- H5. assumption.
+      * simpl snd in H2. apply Nat.le_trans with hd2.
+        -- trivial.
+        -- unfold sorted_pair_lst in H. destruct H as [H3 H4]. simpl snd in H4.
+           apply sorted_le_all in H4. unfold le_all in H4. apply H4 in H2. assumption.
+    + apply IHl. unfold sorted_pair_lst. split.
+      * simpl fst. unfold sorted_pair_lst in H. destruct H as [H1 H2].
+        simpl fst in H1. assumption.
+      * simpl snd. unfold sorted_pair_lst in H. destruct H as [H1 H2].
+        simpl snd in H2. apply tail_sorted in H2. assumption.  
+Qed.
 
 Function mergesort (l: list nat) {measure length l}:=
   match l with
