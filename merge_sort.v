@@ -237,7 +237,16 @@ Qed.
 
 Lemma merge_num_oc: forall n p, num_oc n (merge p) = num_oc n (fst p) + num_oc n (snd p).
 Proof.
-Admitted.
+intros. functional induction (merge p).
+  - simpl fst. simpl snd. simpl num_oc. trivial.
+  - simpl fst. simpl snd. simpl num_oc. trivial.
+  - simpl fst. simpl snd. simpl num_oc at 1 2. destruct (n =? hd1).
+    + rewrite IHl. apply Peano.plus_Sn_m.
+    + rewrite IHl. simpl fst. simpl snd. trivial.
+  - simpl fst. simpl snd. simpl num_oc at 1 3. (destruct (n =? hd2)).
+      + rewrite IHl. simpl fst. simpl snd. apply Peano.plus_n_Sm.
+      + rewrite IHl. simpl fst. simpl snd. trivial.
+Qed.
 
 
 Theorem mergesort_is_perm: forall l, perm l (mergesort l).
