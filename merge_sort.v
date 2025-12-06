@@ -251,8 +251,24 @@ Qed.
 
 Theorem mergesort_is_perm: forall l, perm l (mergesort l).
 Proof.
-  Admitted.
+  intros. functional induction (mergesort l).
+  - apply perm_refl.
+  - apply perm_refl.
+  - unfold perm. intros. rewrite merge_num_oc.
+    unfold fst. unfold snd.
+    replace (num_oc n (mergesort (firstn (length (hd :: tail) / 2) (hd :: tail)))) with (num_oc n (firstn (length (hd :: tail) / 2) (hd :: tail))).
+    replace (num_oc n (mergesort (skipn (length (hd :: tail) / 2) (hd :: tail)))) with (num_oc n (skipn (length (hd :: tail) / 2) (hd :: tail))).
+    + rewrite num_oc_append. rewrite firstn_skipn. reflexivity.
+    + destruct mergesort.
+      * unfold perm in *. rewrite -> IHl1. reflexivity.
+      * unfold perm in *. rewrite -> IHl1. reflexivity.
+    + unfold perm in *. rewrite -> IHl0. reflexivity.
+Qed.
+
 
 Theorem mergesort_is_correct: forall l, perm l (mergesort l) /\ sorted (mergesort l).
 Proof.
-  Admitted.
+  split.
+  - apply mergesort_is_perm.
+  - apply mergesort_sorts.
+Qed.
