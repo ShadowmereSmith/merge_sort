@@ -12,6 +12,7 @@ Require Import Arith List Recdef.
 Require Import Coq.Program.Wf.
 Require Import Permutation.
 
+(** Primeira Etapa*)
 Inductive sorted :list nat -> Prop :=
   | nil_sorted : sorted nil
   | one_sorted: forall n:nat, sorted (n :: nil)
@@ -78,7 +79,7 @@ Proof.
           exact H0.
 Qed.
 
-    
+(** Segunda Etapa *)
 Fixpoint num_oc n l  :=
   match l with
     | nil => 0
@@ -101,7 +102,8 @@ Proof.
     + rewrite <- IHl1. apply Peano.plus_Sn_m.
     + assumption.
 Qed.
-        
+
+(** Terceira Etapa *)
 Definition sorted_pair_lst (p: list nat * list nat) :=
 sorted (fst p) /\ sorted (snd p).
 
